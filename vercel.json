@@ -1,24 +1,22 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "classquiz/main.py",          // ← Aquí usa "classquiz/main.py" (o el archivo real donde está 'app')
-      "use": "@vercel/python"
-    },
-    {
-      "src": "frontend/**",                // Para el frontend SvelteKit si está en frontend/
-      "use": "@vercel/static-build",
-      "config": { "distDir": "frontend/build" }
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "pip install -r requirements.txt",
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/build",
+  "functions": {
+    "classquiz/*.py": {
+      "memory": 1024,
+      "maxDuration": 30
     }
-  ],
-  "routes": [
+  },
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "classquiz/main.py"          // Ruta para la API (ajusta si tus endpoints son /api/...)
+      "source": "/api/(.*)",
+      "destination": "/classquiz/main.py"
     },
     {
-      "src": "/(.*)",
-      "dest": "/frontend/$1"               // Sirve el frontend estático para todo lo demás
+      "source": "/(.*)",
+      "destination": "/$1"
     }
   ],
   "cleanUrls": true,
