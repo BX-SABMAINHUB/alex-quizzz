@@ -5,25 +5,12 @@
     {
       "src": "classquiz/main.py",
       "use": "@vercel/python"
-    },
-    {
-      "src": "frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "frontend/build"
-      }
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/classquiz/main.py"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/$1"
+      "dest": "classquiz/main.py"
     }
-  ],
-  "cleanUrls": true,
-  "trailingSlash": false
+  ]
 }
